@@ -1,0 +1,21 @@
+@import './base.css';
+
+.text-center {
+  text-align: center;
+}
+.pull-right {
+  float: right;
+}
+.button {
+  /* margin: 0 20px; */
+  line-height: 30px;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px #333;
+}
+.button.yellow {
+  border: 1px solid #d2a000;
+  background: #fece34;
+  box-shadow: 0 1px 2px #fedd71 inset, 0 -1px 0 #a38b39 inset, 0 -2px 3px #fedd71 inset;
+}
