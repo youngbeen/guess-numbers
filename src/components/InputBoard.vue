@@ -112,7 +112,7 @@ const trySend = () => {
   z-index: 10;
   padding: 16px 16px 8px;
   background: rgb(255, 255, 255);
-  box-shadow: 0 -2px 8px 1px rgba(112, 112, 112, .3);
+  box-shadow: 0 -2px 28px 6px rgba(112, 112, 112, .3);
 }
 .to-send {
   position: relative;

@@ -1,9 +1,11 @@
 <script setup>
-import { onMounted, reactive } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import { numberUtil } from '@youngbeen/angle-util'
 import HeadPanel from '@/components/HeadPanel.vue'
 import AttemptCard from '@/components/AttemptCard.vue'
 import InputBoard from '@/components/InputBoard.vue'
+import WinDraw from '@/components/WinDraw.vue'
+import LoseDraw from '@/components/LoseDraw.vue'
 
 const maxPlayCount = 10
 
@@ -27,8 +29,12 @@ const history = reactive({
     // }
   ]
 })
+const isWinVisible = ref(false)
+const isLoseVisible = ref(false)
 
 const restart = () => {
+  isWinVisible.value = false
+  isLoseVisible.value = false
   history.list = []
   goodNumbers.list = []
   badNumbers.list = []
@@ -165,12 +171,11 @@ const send = ({ numbers }) => {
     history.list.push(newAttempt)
     document.querySelector('.bottom-anchor').scrollIntoView(false)
     if (correctCount === 4) {
-      // 胜利 TODO
-      window.alert('You win~')
+      // 胜利
+      isWinVisible.value = true
     } else if (history.list.length >= maxPlayCount) {
-      // 失败 TODO
-      window.alert('You lose...')
-      restart()
+      // 失败
+      isLoseVisible.value = true
     }
   }
 }
@@ -203,6 +208,15 @@ onMounted(() => {
       :good-numbers="goodNumbers.list"
       :bad-numbers="badNumbers.list"
       @send="send"></input-board>
+
+    <!-- 胜利弹框 -->
+    <win-draw
+      :visible="isWinVisible"
+      @restart="restart"></win-draw>
+    <!-- 失败弹框 -->
+    <lose-draw
+      :visible="isLoseVisible"
+      @restart="restart"></lose-draw>
   </div>
 </template>
 

@@ -6,16 +6,14 @@
 .pull-right {
   float: right;
 }
-.button {
-  /* margin: 0 20px; */
-  line-height: 30px;
-  border-radius: 5px;
+button {
+  padding: 4px 15px;
+  height: 32px;
   color: #fff;
-  font-weight: bold;
-  text-shadow: 1px 1px 1px #333;
-}
-.button.yellow {
-  border: 1px solid #d2a000;
-  background: #fece34;
-  box-shadow: 0 1px 2px #fedd71 inset, 0 -1px 0 #a38b39 inset, 0 -2px 3px #fedd71 inset;
+  background-color: #1677ff;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-size: 14px;
+  box-shadow: 0 2px 0 rgba(5,145,255,.1);
+  outline: none;
 }
