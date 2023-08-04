@@ -180,6 +180,16 @@ const send = ({ numbers }) => {
   }
 }
 
+const clearTag = () => {
+  history.list.forEach((h) => {
+    h.remark = ['', '', '', '']
+  })
+  for (let index = 0; index < 10; index++) {
+    moveOutGood(index)
+    moveOutBad(index)
+  }
+}
+
 onMounted(() => {
   restart()
 })
@@ -207,7 +217,8 @@ onMounted(() => {
     <input-board
       :good-numbers="goodNumbers.list"
       :bad-numbers="badNumbers.list"
-      @send="send"></input-board>
+      @send="send"
+      @clear-tag="clearTag"></input-board>
 
     <!-- 胜利弹框 -->
     <win-draw

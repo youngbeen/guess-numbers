@@ -25,7 +25,7 @@ const actions = [
   { label: '8', value: '8' },
   { label: '9', value: '9' },
   { label: '0', value: '0' },
-  { label: 'Clear', value: 'clear' },
+  { label: 'Cl Tags', value: 'clear' },
   { label: 'Back', value: 'back' }
 ]
 const nowNumbers = reactive({
@@ -42,7 +42,8 @@ const showNumbers = computed(() => {
 
 const handleInput = (action) => {
   if (action.value === 'clear') {
-    nowNumbers.list = []
+    // nowNumbers.list = []
+    emit('clearTag')
   } else if (action.value === 'back' && nowNumbers.list.length) {
     nowNumbers.list.pop()
   } else if (nowNumbers.list.length < 4 && !nowNumbers.list.includes(action.value)) {
@@ -93,7 +94,7 @@ const trySend = () => {
     <div class="input-panel">
       <div class="input-button"
         :class="[
-          ['clear', 'back'].includes(action.value) && 'red',
+          ['back'].includes(action.value) && 'red',
           goodNumbers.indexOf(parseInt(action.value, 10)) > -1 && 'good',
           badNumbers.indexOf(parseInt(action.value, 10)) > -1 && 'bad'
         ]"
