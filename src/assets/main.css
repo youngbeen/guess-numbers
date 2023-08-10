@@ -1,5 +1,10 @@
 @import './base.css';
 
+body {
+  color: #333;
+  background: #fff;
+}
+
 .text-center {
   text-align: center;
 }
