@@ -55,11 +55,15 @@ const toggleRemark = ({ row, index }) => {
       history.list.forEach((h, i) => {
         h.attempt.forEach((a, j) => {
           if (a === theNumber) {
-            history.list[i].remark[j] = 'circle'
+            if (j === index) {
+              history.list[i].remark[j] = 'square'
+            } else {
+              history.list[i].remark[j] = 'circle'
+            }
           }
         })
       })
-      history.list[row].remark[index] = 'square'
+      // history.list[row].remark[index] = 'square'
       addToGood(theNumber)
       break
     }
@@ -132,6 +136,7 @@ const moveOutBad = (num) => {
 
 const showAnswer = () => {
   console.log(answer.list)
+  window.alert(answer.list.join('-'))
 }
 
 const send = ({ numbers }) => {
@@ -169,7 +174,11 @@ const send = ({ numbers }) => {
       remark, // circle|square|cross|'' - none
     }
     history.list.push(newAttempt)
-    document.querySelector('.bottom-anchor').scrollIntoView(false)
+    setTimeout(() => {
+      document.querySelector('.bottom-anchor').scrollIntoView({
+        behavior: 'smooth'
+      })
+    }, 100)
     if (correctCount === 4) {
       // 胜利
       isWinVisible.value = true
@@ -197,22 +206,24 @@ onMounted(() => {
 
 <template>
   <div class="page">
-    <!-- 顶部栏 -->
-    <head-panel
-      :total-attempts-count="history.list.length"
-      @restart="restart()"
-      @cheat="showAnswer()"></head-panel>
-    
-    <!-- 主展示界面 -->
-    <div class="box-main">
-      <attempt-card
-        v-for="(h, index) in history.list" :key="index"
-        :data="h"
-        :index="index"
-        @toggle-remark="toggleRemark"></attempt-card>
-      <div class="bottom-anchor">&nbsp;</div>
+    <div class="box-wrapper">
+      <!-- 顶部栏 -->
+      <head-panel
+        :total-attempts-count="history.list.length"
+        @restart="restart()"
+        @cheat="showAnswer()"></head-panel>
+      
+      <!-- 主展示界面 -->
+      <div class="box-main">
+        <attempt-card
+          v-for="(h, index) in history.list" :key="index"
+          :data="h"
+          :index="index"
+          @toggle-remark="toggleRemark"></attempt-card>
+        <div class="bottom-anchor">&nbsp;</div>
+      </div>
     </div>
-  
+
     <!-- 底部输入 -->
     <input-board
       :good-numbers="goodNumbers.list"
@@ -234,12 +245,17 @@ onMounted(() => {
 <style scoped>
 .page {
   position: relative;
+  /* height: calc(100vh - 214px); */
+}
+.box-wrapper {
+  height: calc(100vh - 214px);
+  overflow-y: auto;
 }
 .box-main {
   margin-top: 16px;
   /* padding-bottom: 220px; */
 }
 .bottom-anchor {
-  height: 220px;
+  /* height: 220px; */
 }
 </style>
