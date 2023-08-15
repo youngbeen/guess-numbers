@@ -13,7 +13,8 @@ const answer = reactive({
   list: []
 })
 const goodNumbers = reactive({
-  list: [] // 标记存在的数字
+  list: [], // 标记存在的数字
+  position: [] // 标记完全正确的位置
 })
 const badNumbers = reactive({
   list: [] // 标记错误的数字
@@ -37,6 +38,7 @@ const restart = () => {
   isLoseVisible.value = false
   history.list = []
   goodNumbers.list = []
+  goodNumbers.position = []
   badNumbers.list = []
   generateAnswer()
 }
@@ -64,7 +66,7 @@ const toggleRemark = ({ row, index }) => {
         })
       })
       // history.list[row].remark[index] = 'square'
-      addToGood(theNumber)
+      addToGood(theNumber, index)
       break
     }
     case 'square': {
@@ -109,16 +111,21 @@ const toggleRemark = ({ row, index }) => {
   }
 }
 
-const addToGood = (num) => {
+const addToGood = (num, exactPosition = -1) => {
   moveOutBad(num)
   if (goodNumbers.list.indexOf(num) === -1) {
     goodNumbers.list.push(num)
+    goodNumbers.position.push(exactPosition)
+  } else if (exactPosition !== -1) {
+    let targetIndex = goodNumbers.list.indexOf(num)
+    goodNumbers.position[targetIndex] = exactPosition
   }
 }
 const moveOutGood = (num) => {
   const targetIndex = goodNumbers.list.indexOf(num)
   if (targetIndex > -1) {
     goodNumbers.list.splice(targetIndex, 1)
+    goodNumbers.position.splice(targetIndex, 1)
   }
 }
 const addToBad = (num) => {
@@ -157,9 +164,14 @@ const send = ({ numbers }) => {
     // 根据剩余数字总数和去重后的数量之差，得到位置不正确的数字个数
     existCount = leftNumbers.length - [...new Set(leftNumbers)].length
     let remark = []
-    numbers.forEach(n => {
+    numbers.forEach((n, index) => {
       if (goodNumbers.list.indexOf(n) > -1) {
-        remark.push('circle')
+        let targetIndex = goodNumbers.list.indexOf(n)
+        if (goodNumbers.position[targetIndex] !== -1 && goodNumbers.position[targetIndex] === index) {
+          remark.push('square')
+        } else {
+          remark.push('circle')
+        }
       } else if (badNumbers.list.indexOf(n) > -1) {
         remark.push('cross')
       } else {
