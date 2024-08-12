@@ -174,8 +174,29 @@ const trySend = () => {
   background: rgb(165, 165, 255);
 }
 .input-button.bad {
-  color: #fff;
-  background: rgb(186, 186, 186);
+  position: relative;
+  /* color: #fff; */
+  /* background: rgb(186, 186, 186); */
+}
+.input-button.bad:before {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 30px;
+  left: 49%;
+  top: 5px;
+  background: rgba(250, 59, 59, 0.4);
+  rotate: 45deg;
+}
+.input-button.bad:after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 30px;
+  right: 49%;
+  top: 5px;
+  background: rgba(250, 59, 59, 0.4);
+  rotate: 135deg;
 }
 @keyframes bounce {
   0% {

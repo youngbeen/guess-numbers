@@ -114,8 +114,29 @@ defineProps({
   background: rgb(165, 165, 255);
 }
 .cell-number.cross {
+  position: relative;
   border-color: transparent;
-  background: rgb(186, 186, 186);
+  /* background: rgb(186, 186, 186); */
+}
+.cell-number.cross:before {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 30px;
+  left: 19px;
+  top: 5px;
+  background: rgba(250, 59, 59, 0.4);
+  rotate: 45deg;
+}
+.cell-number.cross:after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 30px;
+  right: 19px;
+  top: 5px;
+  background: rgba(250, 59, 59, 0.4);
+  rotate: 135deg;
 }
 .bottom-wrapper {
   position: absolute;
