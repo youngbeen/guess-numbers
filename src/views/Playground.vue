@@ -210,7 +210,6 @@ const clearTag = () => {
     moveOutBad(index)
   }
 }
-
 onMounted(() => {
   restart()
 })

@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 
 defineProps({
   goodNumbers: {
@@ -26,8 +26,10 @@ const actions = [
   { label: '9', value: '9' },
   { label: '0', value: '0' },
   { label: 'Cl Tags', value: 'clear' },
+  { label: '⌨', value: 'fold' },
   { label: 'Back', value: 'back' }
 ]
+const panelCollapsed = ref(false)
 const nowNumbers = reactive({
   list: []
 })
@@ -44,8 +46,12 @@ const handleInput = (action) => {
   if (action.value === 'clear') {
     // nowNumbers.list = []
     emit('clearTag')
-  } else if (action.value === 'back' && nowNumbers.list.length) {
-    nowNumbers.list.pop()
+  } else if (action.value === 'back') {
+    if (nowNumbers.list.length) {
+      nowNumbers.list.pop()
+    }
+  } else if (action.value === 'fold') {
+    panelCollapsed.value = true
   } else if (nowNumbers.list.length < 4 && !nowNumbers.list.includes(action.value)) {
     nowNumbers.list.push(action.value)
   }
@@ -63,10 +69,14 @@ const trySend = () => {
 
 <template>
   <div class="box-input-board">
+    <div class="collapse-button"
+      v-show="panelCollapsed"
+      @click="panelCollapsed = false">⌨</div>
     <div class="to-send"
       :class="[
         nowNumbers.list.length === 4 && 'bounce'
       ]"
+      v-show="!panelCollapsed"
       @click="trySend()">
       <span class="bg-placeholder"
         :class="[
@@ -91,9 +101,11 @@ const trySend = () => {
           ]">{{ showNumbers[3] }}</div>&nbsp;&nbsp;
       </div>
     </div>
-    <div class="input-panel">
+    <div class="input-panel"
+      v-show="!panelCollapsed">
       <div class="input-button"
         :class="[
+          ['clear', 'fold', 'back'].includes(action.value) && 'primary',
           ['back'].includes(action.value) && 'red',
           goodNumbers.indexOf(parseInt(action.value, 10)) > -1 && 'good',
           badNumbers.indexOf(parseInt(action.value, 10)) > -1 && 'bad'
@@ -114,6 +126,13 @@ const trySend = () => {
   padding: 16px 16px 8px;
   background: rgb(255, 255, 255);
   box-shadow: 0 -2px 28px 6px rgba(112, 112, 112, .3);
+}
+.collapse-button {
+  position: relative;
+  padding: 0 8px 8px;
+  margin-bottom: 8px;
+  text-align: center;
+  font-size: 20px;
 }
 .to-send {
   position: relative;
@@ -151,11 +170,11 @@ const trySend = () => {
 .input-panel {
   display: flex;
   flex-wrap: wrap;
-  gap: 4%;
+  gap: 2.5%;
 }
 .input-button {
   margin-bottom: 8px;
-  width: 22%;
+  width: 18%;
   height: 40px;
   line-height: 40px;
   border: 1px solid #eee;
@@ -164,6 +183,9 @@ const trySend = () => {
   /* background: rgb(123, 123, 123); */
   text-align: center;
   font-size: 20px;
+}
+.input-button.primary {
+  width: 31.66%;
 }
 .input-button.red {
   color: #fff;
