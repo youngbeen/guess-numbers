@@ -1,0 +1,12 @@
+{
+  "short_name": "Guess Numbers",
+  "name": "Guess Numbers",
+  "icons": [
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#000",
+  "theme_color": "#a5a5ff",
+  "orientation": "portrait",
+  "scope": "/guess-numbers/"
+}

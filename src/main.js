@@ -15,6 +15,10 @@ library.add(faCheckDouble)
 library.add(faCut)
 library.add(faTimes)
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/guess-numbers/sw.js', { scope: '/guess-numbers/' })
+}
+
 const app = createApp(App)
 
 app.use(router)
